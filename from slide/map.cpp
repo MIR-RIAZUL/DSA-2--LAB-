@@ -59,5 +59,16 @@ void makepair(map<string,int>&r,string &name,int &age){
         cin>>age;
         makepair(r,name,age);
     }
+
+    auto it=fruit.find("apple");
+    if(it!=fruit.end())
+    {
+        fruit["apple"]=fruit["apple"]+4;    
+    }
+
+     for(auto val: fruit)
+    {
+        cout<<val.first<<"->"<<val.second<<endl;
+    }
     return 0;
   }
