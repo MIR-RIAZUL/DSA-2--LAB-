@@ -20,4 +20,6 @@ int main()
     cout<< *s.begin() <<endl;
 
     cout<<s.size()<<endl;
+
+    // we can do multiple of operation with set ...
 }
