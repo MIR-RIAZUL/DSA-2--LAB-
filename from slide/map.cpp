@@ -70,5 +70,17 @@ void makepair(map<string,int>&r,string &name,int &age){
     {
         cout<<val.first<<"->"<<val.second<<endl;
     }
+   auto m=fruit.find("apple");
+
+   if(m!=fruit.end())
+   {
+    fruit.erase(m);
+   }
+
+    for(auto val: fruit)
+    {
+        cout<<val.first<<"->"<<val.second<<endl;
+    }
+
     return 0;
   }
