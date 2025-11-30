@@ -15,7 +15,7 @@ int maxCrosssum(int a[], int low, int mid, int high)
         sum = sum + a[i];
         cout << "sum" << i << ":" << sum << endl;
         leftsum = max(leftsum, sum);
-        cout << "Ls" << i << ":" << leftsum << endl;
+        cout << "Ls" << i << ":" << leftsum << endl; 
     }
     cout << "----------------" << endl
          << endl;
@@ -39,7 +39,7 @@ int maxCrosssum(int a[], int low, int mid, int high)
 
 int maxsubarray(int a[], int low, int high)
 {
-    while (low == high)
+    if (low == high)
     {
         return a[low];
     }
