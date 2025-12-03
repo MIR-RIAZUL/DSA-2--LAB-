@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// Merge function counts smaller elements to the right using for loops
+
 void merge(int arr[], int result[], int low, int mid, int high) {
     int n = high - low + 1;
     int temp[n];
@@ -9,21 +9,21 @@ void merge(int arr[], int result[], int low, int mid, int high) {
     int rightCount = 0;
 
     for (int k = 0; k < n; k++) {
-        if (i > mid) { // left part finished
+        if (i > mid) { 
             temp[k] = arr[j++];
-        } else if (j > high) { // right part finished
+        } else if (j > high) { 
             result[i] += rightCount;
             temp[k] = arr[i++];
-        } else if (arr[j] < arr[i]) { // right element smaller
+        } else if (arr[j] < arr[i]) { 
             rightCount++;
             temp[k] = arr[j++];
-        } else { // left element smaller or equal
+        } else { 
             result[i] += rightCount;
             temp[k] = arr[i++];
         }
     }
 
-    // copy back to original array
+    
     for (int p = 0; p < n; p++)
         arr[low + p] = temp[p];
 }

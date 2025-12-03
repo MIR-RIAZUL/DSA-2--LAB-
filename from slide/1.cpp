@@ -5,7 +5,7 @@ int even(int arr[], int low, int high)
 {
     if (low == high)
     {
-        if (arr[low] % 2 == 0)
+        if (arr[low] % 2 ==0)
         {
             return 1;
         }
