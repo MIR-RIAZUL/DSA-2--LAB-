@@ -9,12 +9,12 @@ struct activity {
 };
 
 // Sort activities by finish time
-bool compare(activity &a, activity &b) {
-    return a.end < b.end;
-}
+ bool compare(activity &a, activity &b) {
+     return a.end < b.end;
+ }
 
 void activitySelection(vector<activity> &acts) {
-    sort(acts.begin(), acts.end(), compare);
+    sort(acts.begin(), acts.end(),compare);
 
     cout << "\nSelected activities:\n";
 
