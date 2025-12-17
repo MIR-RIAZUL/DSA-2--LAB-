@@ -47,14 +47,22 @@ double fractionalKNapsack(int w, vector<item> &items)
 
 int main()
 {
-    vector<item> items = {
-        {840, 12},   // rice
-        {870, 10},   // salt
-        {2000, 8},   // saffron
-        {500, 5}     // sugar
-    };
+    int n;
+    cout << "Enter the number of items: ";
+    cin >> n;
 
-    int capacity = 9;
+    vector<item> items(n);
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Enter value and weight for item " << i + 1 << ": ";
+        cin >> items[i].value >> items[i].weight;
+    }
+
+    int capacity;
+    cout << "Enter the knapsack capacity: ";
+    cin >> capacity;
+
     int thief = 1;
 
     while (!items.empty())
