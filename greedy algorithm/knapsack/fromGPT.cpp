@@ -32,6 +32,7 @@ double fractionalKNapsack(int w,vector<item>items)
             total_value+=items[i].value * ((double)w/items[i].weight);
         }
     }
+    return total_value;
 }
 
 int main()

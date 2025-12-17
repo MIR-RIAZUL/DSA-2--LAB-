@@ -1,61 +1,79 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
 using namespace std;
 
-struct Item {
-    string name;
-    double weight;
-    double cost;
-    double unitPrice() const { return cost / weight; }
+struct item
+{
+    int value;
+    int weight;
 };
 
-int main() {
-    vector<Item> items = {
-        {"Rice", 12, 840},
-        {"Salt", 10, 870},
-        {"Saffron", 8, 2000},
-        {"Sugar", 5, 500}
+// sort by value/weight ratio
+bool compare(item a, item b)
+{
+    return (double)a.value / a.weight > (double)b.value / b.weight;
+}
+
+int main()
+{
+    // Items: Rice, Salt, Saffron, Sugar
+    item items[4] = {
+        {840, 12},
+        {870, 10},
+        {2000, 8},
+        {500, 5}
     };
 
-    double thiefCapacity = 9.0;
-    vector<vector<pair<string,double>>> thiefItems; // items each thief carries
+    int n = 4;
+    int capacity = 9;
+    int thief = 1;
 
-    // Sort items by unit price descending
-    sort(items.begin(), items.end(), [](Item a, Item b){
-        return a.unitPrice() > b.unitPrice();
-    });
+    // sort items once
+    sort(items, items + n, compare);
 
-    while(true) {
-        double remainingCap = thiefCapacity;
-        vector<pair<string,double>> currentThief;
+    while (n > 0)
+    {
+        int w = capacity;
+        double profit = 0;
 
-        bool hasItems = false;
-        for(auto &item : items) {
-            if(item.weight > 0 && remainingCap > 0) {
-                hasItems = true;
-                double take = min(item.weight, remainingCap);
-                currentThief.push_back({item.name, take});
-                item.weight -= take;
-                remainingCap -= take;
+        cout << "\nThief " << thief << " takes:\n";
+
+        for (int i = 0; i < n && w > 0; i++)
+        {
+            if (items[i].weight <= w)
+            {
+                cout << items[i].weight << " kg item (value = "
+                     << items[i].value << ")\n";
+
+                w -= items[i].weight;
+                profit += items[i].value;
+
+                // remove item by shifting
+                for (int j = i; j < n - 1; j++)
+                    items[j] = items[j + 1];
+
+                n--;
+                i--;
+            }
+            else
+            {
+                double fracValue = items[i].value * ((double)w / items[i].weight);
+
+                cout << w << " kg item (value = "
+                     << fracValue << ")\n";
+
+                profit += fracValue;
+                items[i].weight -= w;
+                items[i].value -= fracValue;
+                w = 0;
             }
         }
 
-        if(!hasItems) break; // All items taken
-
-        thiefItems.push_back(currentThief);
+        cout << "Profit of Thief " << thief << " = " << profit << " taka\n";
+        thief++;
     }
 
-    // Print results
-    cout << "Number of thieves needed: " << thiefItems.size() << "\n\n";
-
-    for(int i=0; i<thiefItems.size(); i++) {
-        cout << "Thief " << i+1 << " carries:\n";
-        for(auto &p : thiefItems[i]) {
-            cout << "  " << p.first << " -> " << p.second << " kg\n";
-        }
-        cout << endl;
-    }
+    cout << "\nTotal thieves needed = " << thief - 1 << endl;
 
     return 0;
 }
