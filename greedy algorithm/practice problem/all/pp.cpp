@@ -73,6 +73,41 @@ int main() {
     return 0;
 }
 
+
+
+
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main()
+{
+    int S, N, M;
+
+    // input
+    cout << "Enter S, N, M: ";
+    cin >> S >> N >> M;
+
+    // total food required
+    int totalFood = S * M;
+
+    // check possibility
+    if (6 * N < 7 * M)
+    {
+        cout << "Not possible to survive\n";
+        return 0;
+    }
+
+    // minimum days to buy food
+    int days = ceil((double)totalFood / N);
+
+    cout << days << endl;
+
+    return 0;
+}
+
+
 //............................................................................
 //3.thif
 #include <iostream>
