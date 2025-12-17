@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 struct item
@@ -8,68 +9,61 @@ struct item
     int weight;
 };
 
-// sort by value/weight ratio
-bool compare(item a, item b)
+bool compare(item &a, item &b)
 {
-    return (double)a.value / a.weight > (double)b.value / b.weight;
+    double r1 = (double)a.value / a.weight;
+    double r2 = (double)b.value / b.weight;
+    return r1 > r2;
+}
+
+// function in YOUR style
+double fractionalKNapsack(int w, vector<item> &items)
+{
+    sort(items.begin(), items.end(), compare);
+
+    double total_value = 0.0;
+
+    for (int i = 0; i < items.size() && w > 0; )
+    {
+        if (items[i].weight <= w)
+        {
+            w -= items[i].weight;
+            total_value += items[i].value;
+
+            // remove item after stealing
+            items.erase(items.begin() + i);
+        }
+        else
+        {
+            total_value += items[i].value * ((double)w / items[i].weight);
+
+            items[i].value -= items[i].value * ((double)w / items[i].weight);
+            items[i].weight -= w;
+            w = 0;
+        }
+    }
+    return total_value;
 }
 
 int main()
 {
-    // Items: Rice, Salt, Saffron, Sugar
-    item items[4] = {
-        {840, 12},
-        {870, 10},
-        {2000, 8},
-        {500, 5}
+    vector<item> items = {
+        {840, 12},   // rice
+        {870, 10},   // salt
+        {2000, 8},   // saffron
+        {500, 5}     // sugar
     };
 
-    int n = 4;
     int capacity = 9;
     int thief = 1;
 
-    // sort items once
-    sort(items, items + n, compare);
-
-    while (n > 0)
+    while (!items.empty())
     {
-        int w = capacity;
-        double profit = 0;
+        cout << "\nThief " << thief << ":\n";
 
-        cout << "\nThief " << thief << " takes:\n";
+        double profit = fractionalKNapsack(capacity, items);
 
-        for (int i = 0; i < n && w > 0; i++)
-        {
-            if (items[i].weight <= w)
-            {
-                cout << items[i].weight << " kg item (value = "
-                     << items[i].value << ")\n";
-
-                w -= items[i].weight;
-                profit += items[i].value;
-
-                // remove item by shifting
-                for (int j = i; j < n - 1; j++)
-                    items[j] = items[j + 1];
-
-                n--;
-                i--;
-            }
-            else
-            {
-                double fracValue = items[i].value * ((double)w / items[i].weight);
-
-                cout << w << " kg item (value = "
-                     << fracValue << ")\n";
-
-                profit += fracValue;
-                items[i].weight -= w;
-                items[i].value -= fracValue;
-                w = 0;
-            }
-        }
-
-        cout << "Profit of Thief " << thief << " = " << profit << " taka\n";
+        cout << "Profit = " << profit << " taka\n";
         thief++;
     }
 
